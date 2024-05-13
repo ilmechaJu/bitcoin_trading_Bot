@@ -3,9 +3,9 @@ import pyupbit
 import datetime
 import requests
 
-access = ""
-secret = ""
-myToken = ""
+access = "your-access"
+secret = "your-secret"
+myToken = "xoxb-your-token"
 
 def post_message(token, channel, text):
     """슬랙 메시지 전송"""
@@ -57,23 +57,23 @@ post_message(myToken,"#stock", "autotrade start")
 while True:
     try:
         now = datetime.datetime.now()
-        start_time = get_start_time("KRW-ONG")
+        start_time = get_start_time("KRW-XRP")
         end_time = start_time + datetime.timedelta(days=1)
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price("KRW-ONG", 0.5)
-            ma15 = get_ma15("KRW-ONG")
-            current_price = get_current_price("KRW-ONG")
+            target_price = get_target_price("KRW-XRP", 0.5)
+            ma15 = get_ma15("KRW-XRP")
+            current_price = get_current_price("KRW-XRP")
             if target_price < current_price and ma15 < current_price:
                 krw = get_balance("KRW")
                 if krw > 5000:
-                    buy_result = upbit.buy_market_order("KRW-ONG", krw*0.9995)
-                    post_message(myToken,"#stock", "ONG buy : " +str(buy_result))
+                    buy_result = upbit.buy_market_order("KRW-XRP", krw*0.9995)
+                    post_message(myToken,"#stock", "XRP buy : " +str(buy_result))
         else:
-            ONG = get_balance("ONG")
-            if ONG > 0.00008:
-                sell_result = upbit.sell_market_order("KRW-ONG", ONG*0.9995)
-                post_message(myToken,"#stock", "ONG buy : " +str(sell_result))
+            XRP = get_balance("XRP")
+            if XRP > 0.00008:
+                sell_result = upbit.sell_market_order("KRW-XRP", XRP*0.9995)
+                post_message(myToken,"#stock", "XRP buy : " +str(sell_result))
         time.sleep(1)
     except Exception as e:
         print(e)
